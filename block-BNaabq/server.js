@@ -2,19 +2,26 @@ const express = require('express');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 
+// SERVER
 const app = express();
 
+//THIRD PARTY MIDDLEWARES 
 app.use(logger('dev'));
 app.use(cookieParser());
 
-app.use('/about', (req, res, next) => {
+// CUSTOM MIDDLEWARES
+app.use((req, res, next) => {
     console.log(req.cookies);
+    next();
+});
+app.use('/about', (req, res, next) => {
     res.cookie('username', 'shishupalamigo');
     res.send('Welcome');
     next();
 });
+
+// ROUTES MIDDLEWARES
 app.get('/', (req, res) => {
-    console.log(req.cookies);
     res.sendFile(__dirname + '/index.html');
 });
 
