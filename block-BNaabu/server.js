@@ -5,7 +5,7 @@ const app = express();
 
 app.use(logger('dev'));
 
-app.get('/admin', (req, res, next) => {
+app.use('/admin', (req, res, next) => {
     next('Unauthorised User');
 });
 
@@ -16,9 +16,13 @@ app.get('/', (req, res) => {
 app.get('/about', (req,  res) =>  {
     res.send('About Page');
 });
-app.use((req, res) => {
+
+// 404 error handler 
+app.use((req, res, next) => {
     res.send('Error: 404, Page Not Found')
 });
+
+// custom error
 app.use((err, req, res, next) => {
     res.send(err);
 });
